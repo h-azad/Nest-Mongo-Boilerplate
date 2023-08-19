@@ -1,4 +1,6 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
@@ -7,9 +9,12 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb+srv://mdb-user:3IlpwR81JQIidmEv@mt-primary.tklhsly.mongodb.net/'),
+    ConfigModule.forRoot({
+      isGlobal: true
+    }),
+    MongooseModule.forRoot(process.env.CONNECTION_STRING),
     UsersModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
